@@ -163,6 +163,9 @@
 
 - (void)dismissDropdownAnimated:(BOOL)animated
 {
+    // Lukas: We want this to happen earlier to be able to change the UI without delay
+    [self.dropdownViewController informDelegateAboutDismiss];
+    
     [UIView animateWithDuration:0.3f
                           delay:0.05f
          usingSpringWithDamping:1.0
@@ -177,12 +180,14 @@
                      }
                      completion:^(BOOL finished){
                          if (!finished) { return; }
-
+                         
                          [self removeContainerView];
                          [self removeContainerViewControllerFromParentController];
                          
-                         [self.dropdownViewController informDelegateAboutDismiss];
+                         // Lukas: We want this to happen earlier to be able to change the UI without delay
+                         //[self.dropdownViewController informDelegateAboutDismiss];
                      }];
+
 }
 
 - (void)handleRotation
